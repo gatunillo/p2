@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Comentarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h2 class="ion-text-center">Título del post</h2>
+  <ion-item>
+    <ion-label color="secondary"><div class="ion-text-center">{{this.post.title}}</div></ion-label>
+  </ion-item>
+  
+  <h1 class="ion-text-center">Comentarios del post</h1>
+  <div *ngIf="listado.length > 0">
+    <ion-list>
+      <div *ngFor="let item of listado">
+        <ion-row>
+          <ion-col size="4">ID Comentario:</ion-col>
+          <ion-col size="8">{{item.id}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">Nombre:</ion-col>
+          <ion-col size="8">{{item.name}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">Contenido:</ion-col>
+          <ion-col size="8">{{item.body}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">E-mail:</ion-col>
+          <ion-col size="8">{{item.email}}</ion-col>
+        </ion-row> <br><br>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

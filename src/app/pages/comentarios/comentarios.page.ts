@@ -3,23 +3,33 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
-  selector: 'app-inicio',
-  templateUrl: './inicio.page.html',
-  styleUrls: ['./inicio.page.scss'],
+  selector: 'app-comentarios',
+  templateUrl: './comentarios.page.html',
+  styleUrls: ['./comentarios.page.scss'],
 })
-export class InicioPage implements OnInit {
+export class ComentariosPage implements OnInit {
 
   listado = [];
   id = "";
-  user = "";
+  post = "";
 
   constructor(private router:Router,
     private api:ApiService,
     private activatedRoute:ActivatedRoute) { }
 
   ngOnInit() {
+    this.getComments();
     this.getPost();
-    this.getUser();
+  }
+
+  async getComments(){
+    this.activatedRoute.paramMap.subscribe(async p => {
+      this.id = p.get('id');
+      //console.log(this.id);
+    });
+    await this.api.getComments(this.id);
+    this.listado = this.api.listado;
+    //console.log(this.listado);
   }
 
   async getPost(){
@@ -27,27 +37,8 @@ export class InicioPage implements OnInit {
       this.id = p.get('id');
       //console.log(this.id);
     });
-    await this.api.getPosts(this.id);
-    this.listado = this.api.listado;
-    //console.log(this.listado);
-  }
-
-  async getUser(){
-    this.activatedRoute.paramMap.subscribe(async p => {
-      this.id = p.get('id');
-      //console.log(this.id);
-    });
-    await this.api.getUser(this.id);
-    this.user = this.api.datos;
-  }
-
-  listar(){
-
-  }
-
-  logout(){
-    localStorage.removeItem('ingresado');
-    this.router.navigateByUrl('login');
+    await this.api.getPost(this.id);
+    this.post = this.api.datos;
   }
 
 }

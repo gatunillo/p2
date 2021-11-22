@@ -12,17 +12,19 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-    canActivate: [NoIngresadoGuard]
   },
   {
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule),
-    canActivate: [NoIngresadoGuard]
   },
   {
-    path: 'inicio',
+    path: 'inicio/:id',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule),
     canActivate: [IngresadoGuard]
+  },
+  {
+    path: 'comentarios/:id',
+    loadChildren: () => import('./pages/comentarios/comentarios.module').then( m => m.ComentariosPageModule)
   },
 ];
 

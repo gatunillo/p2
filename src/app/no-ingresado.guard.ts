@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,13 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class NoIngresadoGuard implements CanActivate {
 
-  constructor(public navCtrl: NavController){}
+  constructor(public router: Router){}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if(localStorage.getItem('ingresado')){
-        this.navCtrl.navigateRoot('login');
+        this.router.navigateByUrl('login');
         return false;
       }else{
         return true;

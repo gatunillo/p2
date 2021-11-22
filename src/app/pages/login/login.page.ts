@@ -5,7 +5,9 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +17,14 @@ import { AlertController, NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   formularioLogin: FormGroup;
+  listado = [];
+  userNames = [];
 
   constructor(public fb:FormBuilder,
     public alertController: AlertController,
-    public navCtrl: NavController) {
+    public router: Router,
+    private api:ApiService,
+    private toast:ToastController) {
 
     this.formularioLogin = this.fb.group({
       'nombre': new FormControl("",Validators.required),
@@ -28,11 +34,48 @@ export class LoginPage implements OnInit {
    }
 
   ngOnInit() {
+    localStorage.clear();
+    this.api.getUsers();
+    this.listado = this.api.listado;
+    console.log(this.listado);
   }
 
   async ingresar(){
     var f = this.formularioLogin.value;
+    var user = f.nombre;
+    var pass = f.password;
+  
+    for(let item of this.listado){
+      if(user == item.username && pass == 1234){
+        localStorage.setItem('ingresado','true');
+        this.router.navigate(['inicio',item.id]);
+      }
+    }
+    /*
+    if (!localStorage) {
+      const toast = await this.toast.create({
+        message : 'Datos incorrectos',
+        duration: 1400,
+        color   : "danger",
+        position: "middle"
+      });
+      toast.present();
+    }
+*/
 
+
+/*
+    let dato = null;
+    this.listado.forEach((v,k) => {
+      if(v[0].username == user){
+        dato = v;
+        console.log(dato);
+      }else{
+        console.log('Error');
+      }
+    })
+*/
+    /*
     var usuario = JSON.parse(localStorage.getItem('usuario'));
 
     if(usuario.nombre == f.nombre && usuario.password == f.password){
@@ -48,7 +91,7 @@ export class LoginPage implements OnInit {
   
       await alert.present();
     }
-
+    */
   }
 
 }
